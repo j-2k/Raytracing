@@ -2,8 +2,9 @@
 #include "Walnut/EntryPoint.h"
 
 #include "Walnut/Image.h"
-#include "Walnut/Random.h"
+
 #include "Walnut/Timer.h"
+#include "Renderer.h"
 
 using namespace Walnut;
 
@@ -14,6 +15,7 @@ public:
 	{
 		ImGui::Begin("Settings");
 		ImGui::Text("Last render: %.3fms", m_LastRenderTime);
+		ImGui::Text("FPS: %.1f", m_FPS);
 		if (ImGui::Button("Render"))
 		{
 			Render();
@@ -27,12 +29,15 @@ public:
 		
 		m_ViewportWidth = ImGui::GetContentRegionAvail().x;
 		m_ViewportHeight = ImGui::GetContentRegionAvail().y;
-		if (m_Image)
+		
+		auto image = renderer.GetFinalImage();
+		if (image)
 		{
-			ImGui::Image(m_Image->GetDescriptorSet(), {
-						(float)m_Image->GetWidth(),
-						(float)m_Image->GetHeight()
-			});
+			ImGui::Image(image->GetDescriptorSet(), {
+						(float)image->GetWidth(),
+						(float)image->GetHeight()
+			}, 
+			ImVec2(0,1), ImVec2(1,0));
 		}
 
 
@@ -47,43 +52,29 @@ public:
 
 		Timer timer;
 
-		if (m_Image == nullptr ||
-			m_ViewportHeight != m_Image->GetHeight() ||
-			m_ViewportWidth != m_Image->GetWidth())
-		{
-			m_Image = std::make_shared<Image>(m_ViewportWidth,m_ViewportHeight,
-				ImageFormat::RGBA);
-
-			delete[] m_ImageData;
-			m_ImageData = new uint32_t[m_ViewportWidth * m_ViewportHeight];
-		}
-
-		for (uint32_t i = 0; i < m_ViewportWidth * m_ViewportHeight; i++)
-		{
-			//m_ImageData[i] = 0xff00ffff; //ABGR FORMAT (REVERSED RGBA!!!)
-			m_ImageData[i] = Random::UInt();
-			m_ImageData[i] |= 0xff000000;
-		}
-
-		m_Image->SetData(m_ImageData);
+		//Call resize first then the renderer render function
+		renderer.OnResize(m_ViewportWidth, m_ViewportHeight);
+		renderer.Render();
 
 		m_LastRenderTime = timer.ElapsedMillis();
+		m_FPS = 1 / (m_LastRenderTime / 1000);
 	}
 
 private:
-	std::shared_ptr<Image> m_Image;
+	Renderer renderer;
 
 	uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 
-	uint32_t* m_ImageData = nullptr;
+
 
 	float m_LastRenderTime = 0;
+	float m_FPS = 0;
 };
 
 Walnut::Application* Walnut::CreateApplication(int argc, char** argv)
 {
 	Walnut::ApplicationSpecification spec;
-	spec.Name = "Walnut Example";
+	spec.Name = "Juma's First Raytracing Project";
 
 	Walnut::Application* app = new Walnut::Application(spec);
 	app->PushLayer<ExampleLayer>();
