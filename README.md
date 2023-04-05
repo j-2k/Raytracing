@@ -1,6 +1,12 @@
-# Walnut App Template
+# First Raytracing Project
 
-This is a simple app template for [Walnut](https://github.com/TheCherno/Walnut) - unlike the example within the Walnut repository, this keeps Walnut as an external submodule and is much more sensible for actually building applications. See the [Walnut](https://github.com/TheCherno/Walnut) repository for more details.
+This is my first time trying to tackle raytracing from scratch, I will be documenting everything I do on my website for more information on trying to understand what is going on you can view my [website](https://j-2k.github.io) & check the projects section.
 
-## Getting Started
-Once you've cloned, you can customize the `premake5.lua` and `WalnutApp/premake5.lua` files to your liking (eg. change the name from "WalnutApp" to something else).  Once you're happy, run `scripts/Setup.bat` to generate Visual Studio 2022 solution/project files. Your app is located in the `WalnutApp/` directory, which some basic example code to get you going in `WalnutApp/src/WalnutApp.cpp`. I recommend modifying that WalnutApp project to create your own application, as everything should be setup and ready to go.
+Its important to know before hand this project is not fully written from "scratch" but it kind of is atleast the raytracing part. we are mostly using a vulkan image & assigning its pixels to "emulate" a raytracer, but anyway this project is a [Walnut](https://github.com/TheCherno/Walnut) template originally & we just built a raytracer ontop of it. Its mostly just ImGUI for UI, GLM for math, & GLFW for window stuff.
+
+## Learning Resources & Useful Links
+- [Cherno Raytracing Series](https://www.youtube.com/playlist?list=PLlrATfBNZ98edc5GshdBtREv5asFW3yXl) Main guide I follow
+- [Raytracing in 1 Weekend](https://raytracing.github.io) Infamous book for raytracing
+- [Scratchapixel](https://scratchapixel.com) Learn computer graphics topics & all math prerequisites.
+- [ssloy](https://github.com/ssloy) More guides about CG topics from ssloy
+- [My Website documenting this whole project](https://j-2k.github.io), Check it out if you are interested!
