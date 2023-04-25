@@ -1,6 +1,21 @@
 #include "Renderer.h"
 #include "Walnut/Random.h"
 
+namespace Utils
+{
+	static uint32_t ConvertVec4ToRGBA32Bit(const glm::vec4 col)
+	{
+		uint8_t r = (uint8_t)(col.r * 255.0f);
+		uint8_t g = (uint8_t)(col.g * 255.0f);
+		uint8_t b = (uint8_t)(col.b * 255.0f);
+		uint8_t a = (uint8_t)(col.a * 255.0f);
+
+		//rgba abgr
+		uint32_t finalCol = (a << 24) | (b << 16) | (g << 8) | r;
+		return finalCol;
+	}
+}
+
 void Renderer::OnResize(uint32_t width, uint32_t height)
 {
 	if (m_FinalImage)
@@ -37,28 +52,23 @@ void Renderer::Render()
 			//remapping coords to -1 to 1 was 0 - 1
 			coord = coord * 2.0f - 1.0f;
 
-			m_ImageData[x + y * m_FinalImage->GetWidth()] = PerPixel(coord);
-
-			//m_ImageData[i] = 0xff00ffff; //ABGR FORMAT (REVERSED RGBA!!!)
-			//m_ImageData[i] = Walnut::Random::UInt();
-			//m_ImageData[i] |= 0xff000000;
+			glm::vec4 color = PerPixel(coord);
+			color = glm::clamp(color, glm::vec4(0.0f), glm::vec4(1.0f));
+			m_ImageData[x + y * m_FinalImage->GetWidth()] = Utils::ConvertVec4ToRGBA32Bit(color);
 		}
 	}
 
 	m_FinalImage->SetData(m_ImageData);
 }
 
-uint32_t Renderer::PerPixel(glm::vec2 fragCoord)
+glm::vec4 Renderer::PerPixel(glm::vec2 fragCoord)
 {
-	uint8_t r = (uint8_t)(fragCoord.x * 255.0f);
-	uint8_t g = (uint8_t)(fragCoord.y * 255.0f);
-
 	//solve for t : t is the magnitude of the ray (quadratic formula below)
 	//  BELOW IS a			BELOW IS b			BELOW IS C
 	// (bx^2 + by^2)t^2 + (2(axbx + ayby))t + (ax^2 + ay^2 - r^2) = 0
 	//x & y is the coords/origin : r is the radius : a is ray origin : b is ray direction
 
-	glm::vec3 rayOrigin(0.f,0.f,2.f);
+	glm::vec3 rayOrigin(0.0f,0.0f,1.5f);
 	glm::vec3 rayDir(fragCoord.x, fragCoord.y, -1.0f);
 	float radius = 0.5f;
 	//rayDir = glm::normalize(rayDir);
@@ -70,19 +80,26 @@ uint32_t Renderer::PerPixel(glm::vec2 fragCoord)
 
 	//finding out the # of solutions from the quadratic equation
 	//quad formula discriminant = b^2 - 4ac
-	float discriminant = b * b - 4.f * a * c;
+	float discriminant = b * b - 4.0f * a * c;
 
-	if (discriminant >= 0)
+	//quad formula full = -b +- sqrt(discriminant) / 2a
+
+	if (discriminant < 0)
 	{
-		return 0xffff00ff;
+		return glm::vec4(0, 0, 0, 1);
 	}
 
-	return 0xff000000;
+	float t0 = (-b + glm::sqrt(discriminant)) / (2.0f * a);
+	float closeHitLength = (-b - glm::sqrt(discriminant)) / (2.0f * a);//t1
+	glm::vec3 h0 = rayOrigin + rayDir * t0;
+	glm::vec3 hitPos1 = rayOrigin + rayDir * closeHitLength;//h1
+	glm::vec3 normals = glm::normalize(hitPos1);
+	//normals = normals * 0.5f + 0.5f; //remapping to 0 - 1
 
-	/*
-	//this will draw a float4(uv.xy,0,1) quad or "Hello World"
-	return 0xff000000 | (g << 8) | r; //ABGR
-	//BIT SHIFTING RIGHT TO LEFT!!! ABGR FORMAT!
-	*/
+	glm::vec3 lightDir = glm::normalize(glm::vec3(-1, -1, -1));
+	float dotNL = glm::max(glm::dot(normals,-lightDir), 0.0f);
 
+	glm::vec3 sphereColor  (1,0.5f,0);
+	sphereColor *= dotNL;//normals;
+	return glm::vec4(sphereColor, 1);
 }
