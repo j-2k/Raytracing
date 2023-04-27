@@ -18,12 +18,19 @@ I used Visual Studio 2022 so I suggest that IDE, but you also need latest versio
 - [My Website documenting this whole project.](https://j-2k.github.io) Check it out if you are interested!
 
 ## My journey through raytracing with pictures!
+Check out my [website](https://github.com/j-2k/VisualizeRaytracingInUnity) where I document the whole process.
+
+#### The Hello World Stage
 ![first uv](https://user-images.githubusercontent.com/52252068/234472575-81e72086-39fe-4f46-8550-3d80f62e45a1.png)
 
+#### The first sphere using ray intersection
 ![first sphere](https://user-images.githubusercontent.com/52252068/234472603-626bd8ee-0446-4308-a1e9-c7b069c9da7b.png)
 
+#### Visualizing the raytracer in Unity
 ![Visualkization](https://user-images.githubusercontent.com/52252068/234472677-a8b79507-5bcf-42e5-93e9-5931b121fa63.gif)
 
-
+#### First shaded raytraced sphere
+Camera interactivity was also added between this stage & the next stage.
 ![Screenshot_2](https://user-images.githubusercontent.com/52252068/234472619-360c6518-8d1f-481a-8153-7521b2461c02.png)
 
+####
