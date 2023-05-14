@@ -30,7 +30,7 @@ Check out my [website](https://github.com/j-2k/VisualizeRaytracingInUnity) where
 ![Visualkization](https://user-images.githubusercontent.com/52252068/234472677-a8b79507-5bcf-42e5-93e9-5931b121fa63.gif)
 
 #### First shaded raytraced sphere
-Camera interactivity was also added between this stage & the next stage.
+Camera interactivity was also added.
 ![Screenshot_2](https://user-images.githubusercontent.com/52252068/234472619-360c6518-8d1f-481a-8153-7521b2461c02.png)
 
 ####
