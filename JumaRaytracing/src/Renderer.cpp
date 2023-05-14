@@ -37,7 +37,7 @@ void Renderer::OnResize(uint32_t width, uint32_t height)
 	m_ImageData = new uint32_t[width * height];
 }
 
-void Renderer::Render(const Camera& camera)
+void Renderer::Render(const Scene& scene, const Camera& camera)
 {
 	Ray ray;
 	ray.origin = camera.GetPosition();
@@ -48,7 +48,7 @@ void Renderer::Render(const Camera& camera)
 		for (uint32_t x = 0; x < m_FinalImage->GetWidth(); x++)
 		{
 			ray.direction = camera.GetRayDirections()[x + y * m_FinalImage->GetWidth()];
-			glm::vec4 color = TraceRay(ray);
+			glm::vec4 color = TraceRay(scene, ray);
 			color = glm::clamp(color, glm::vec4(0.0f), glm::vec4(1.0f));
 			m_ImageData[x + y * m_FinalImage->GetWidth()] = Utils::ConvertVec4ToRGBA32Bit(color);
 		}
@@ -57,37 +57,69 @@ void Renderer::Render(const Camera& camera)
 	m_FinalImage->SetData(m_ImageData);
 }
 
-glm::vec4 Renderer::TraceRay(const Ray& ray)
+glm::vec4 Renderer::TraceRay(const Scene& scene, const Ray& ray)
 {
-	float radius = 0.5f;
+	//(bx^2  +  by^2)t^2 + (2(axbx  +  ayby))t + (ax^2  +  ay^2  -  r^2) = 0
+	//a = ray origin
+	//b = ray direction
+	//r = radius
+	//t = hit distance /mag
 
-	//final quadratic equation implemented
-	float a = glm::dot(ray.direction, ray.direction);	//equivalent to float a =	rayDir.x * rayDir.x + rayDir.y * rayDir.y + rayDir.z * rayDir.z;
-	float b = 2.0f * glm::dot(ray.origin, ray.direction);
-	float c = glm::dot(ray.origin, ray.origin) - radius * radius;
-
-	//finding out the # of solutions from the quadratic equation
-	//quad formula discriminant = b^2 - 4ac
-	float discriminant = b * b - 4.0f * a * c;
-
-	//quad formula full = -b +- sqrt(discriminant) / 2a
-
-	if (discriminant < 0)
+	if (scene.Spheres.size() == 0)
 	{
 		return glm::vec4(0, 0, 0, 1);
 	}
 
-	float t0 = (-b + glm::sqrt(discriminant)) / (2.0f * a);
-	float closeHitLength = (-b - glm::sqrt(discriminant)) / (2.0f * a);//t1
-	glm::vec3 h0 = ray.origin + ray.direction * t0;
-	glm::vec3 hitPos1 = ray.origin + ray.direction * closeHitLength;//h1
-	glm::vec3 normals = glm::normalize(hitPos1);
+	const Sphere* closestSphere = nullptr;
+	float hitDist = std::numeric_limits<float>::max();
+	for (const Sphere& sphere : scene.Spheres)
+	{
+		glm::vec3 newOrigin = ray.origin - sphere.Position;
+
+		//final quadratic equation implemented
+		float a = glm::dot(ray.direction, ray.direction);	//equivalent to float a =	rayDir.x * rayDir.x + rayDir.y * rayDir.y + rayDir.z * rayDir.z;
+		float b = 2.0f * glm::dot(newOrigin, ray.direction);
+		float c = glm::dot(newOrigin, newOrigin) - sphere.Radius * sphere.Radius;
+
+		//finding out the # of solutions from the quadratic equation
+		//quad formula discriminant = b^2 - 4ac
+		float discriminant = b * b - 4.0f * a * c;
+
+		//quad formula full = -b +- sqrt(discriminant) / 2a
+
+		if (discriminant < 0)
+		{
+			continue;
+		}
+
+
+		//float t0 = (-b + glm::sqrt(discriminant)) / (2.0f * a);
+		float closestT = (-b - glm::sqrt(discriminant)) / (2.0f * a);//t1
+		if (closestT < hitDist)
+		{
+			hitDist = closestT;
+			closestSphere = &sphere;
+		}
+	}
+
+	if (closestSphere == nullptr)
+	{
+		return glm::vec4(0.f, 0.f, 0.f, 1.f);
+	}
+
+	glm::vec3 origin = ray.origin - closestSphere->Position;
+	glm::vec3 hitPos1 = origin + ray.direction * hitDist;//h1
+	glm::vec3 normals = glm::normalize(hitPos1);//h1
+	//float t0 = (-b + glm::sqrt(discriminant)) / (2.0f * a);
+	//float closeHitLength = (-b - glm::sqrt(discriminant)) / (2.0f * a);//t1
+	//glm::vec3 h0 = newOrigin + ray.direction * t0;
+	//glm::vec3 normals = glm::normalize(h0);
 	//normals = normals * 0.5f + 0.5f; //remapping to 0 - 1
 
 	glm::vec3 lightDir = glm::normalize(glm::vec3(-1, -1, -1));
 	float dotNL = glm::max(glm::dot(normals,-lightDir), 0.0f);
 
-	glm::vec3 sphereColor  (1,0.5f,0);
+	glm::vec3 sphereColor = closestSphere->Albedo;
 	sphereColor *= dotNL;//normals;
 	return glm::vec4(sphereColor, 1);
 }
