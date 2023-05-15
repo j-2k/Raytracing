@@ -1,7 +1,8 @@
 # First Raytracing Project
 
-[Visualizing this raytracer in unity](https://github.com/j-2k/VisualizeRaytracingInUnity)<br />
-This is my first time trying to tackle raytracing from scratch, I will be documenting everything I do on my website for more information on trying to understand what is going on you can view my [website](https://j-2k.github.io) & check the projects section.
+[Visualizing this raytracer in unity (Repository)](https://github.com/j-2k/VisualizeRaytracingInUnity)<br />
+[Visualizing this raytracer in unity (Blog)](https://j-2k.github.io/Raytracing)<br />
+This is my first time trying to tackle raytracing from scratch, I will be documenting my learning journey on everything I do & learn on my website. I try to make it in a way that is simple to understand as much as possible, if you would like to check it out click the blog link above or click [here](https://j-2k.github.io/Raytracing).
 
 Its important to know before hand this project is not fully written from "scratch" but it kind of is atleast the raytracing part. we are mostly using a vulkan image & assigning its pixels to "emulate" a raytracer, but anyway this project is a [Walnut](https://github.com/TheCherno/Walnut) template originally & we just built a raytracer ontop of it. Its mostly just ImGUI for UI, GLM for math, & GLFW for window stuff.
 
@@ -18,7 +19,7 @@ I used Visual Studio 2022 so I suggest that IDE, but you also need latest versio
 - [My Website documenting this whole project.](https://j-2k.github.io) Check it out if you are interested!
 
 ## My journey through raytracing with pictures!
-Check out my [website](https://github.com/j-2k/VisualizeRaytracingInUnity) where I document the whole process.
+Click [here](https://github.com/j-2k/VisualizeRaytracingInUnity) to go to my website where I show much more in a better fashion.
 
 #### The Hello World Stage
 ![first uv](https://user-images.githubusercontent.com/52252068/234472575-81e72086-39fe-4f46-8550-3d80f62e45a1.png)
