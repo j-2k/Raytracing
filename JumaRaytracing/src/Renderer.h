@@ -24,11 +24,11 @@ public:
 			glm::vec3 WorldPosition;
 			glm::vec3 WorldNormal;
 
-			uint32_t ObjectIndex;
+			int ObjectIndex;
 		};
 
 		HitPayload TraceRay(const Ray& ray);
-		HitPayload ClosestHit(const Ray& ray, float hitDistance, uint32_t objectIndex);
+		HitPayload ClosestHit(const Ray& ray, float hitDistance, int objectIndex);
 		HitPayload Miss(const Ray& ray);
 private:
 	std::shared_ptr<Walnut::Image> m_FinalImage;
