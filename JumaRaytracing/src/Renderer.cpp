@@ -63,16 +63,35 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 	ray.origin = m_ActiveCamera->GetPosition();
 	ray.direction = m_ActiveCamera->GetRayDirections()[x + y * m_FinalImage->GetWidth()];
 
-	Renderer::HitPayload payload = TraceRay(ray);
+	glm::vec3 color(0);
+	float multiplier = 1.0f;
 
-	glm::vec3 lightDir = glm::normalize(glm::vec3(-1, -1, -1));
-	float dotNL = glm::max(glm::dot(payload.WorldNormal, -lightDir), 0.0f);//dot normal & light
+	int rayBounces = 2;
+	for (int i = 0; i < rayBounces; i++)
+	{
+		Renderer::HitPayload payload = TraceRay(ray);
+		if (payload.HitDistance < 0.0f)
+		{
+			glm::vec3 skyColor = glm::vec3(0, 0, 0);
+			color += skyColor * multiplier;
+			break;
+		}
 
-	const Sphere& sphere = m_ActiveScene->Spheres[payload.ObjectIndex];
+		glm::vec3 lightDir = glm::normalize(glm::vec3(-1, -1, -1));
+		float dotNL = glm::max(glm::dot(payload.WorldNormal, -lightDir), 0.0f);//dot normal & light
 
-	glm::vec3 sphereColor = sphere.Albedo;
-	sphereColor *= dotNL;//normals;
-	return glm::vec4(sphereColor, 1);
+		const Sphere& sphere = m_ActiveScene->Spheres[payload.ObjectIndex];
+
+		glm::vec3 sphereColor = sphere.Albedo;
+		sphereColor *= dotNL;//normals;
+		color += sphereColor * multiplier;
+
+		multiplier *= 0.75f;
+
+		ray.origin = payload.WorldPosition = payload.WorldNormal * 0.0001f;
+		ray.direction = glm::reflect(ray.direction, payload.WorldNormal);
+	}
+	return glm::vec4(color, 1);
 }
 
 Renderer::HitPayload Renderer::ClosestHit(const Ray& ray, float hitDistance, int objectIndex)
@@ -94,13 +113,15 @@ Renderer::HitPayload Renderer::ClosestHit(const Ray& ray, float hitDistance, int
 	//normals = normals * 0.5f + 0.5f; //remapping to 0 - 1
 
 	payload.WorldPosition += closestSphere.Position;
-
-
+	return payload;
 }
 
-HitPayload Renderer::Miss(const Ray& ray)
+Renderer::HitPayload Renderer::Miss(const Ray& ray)
 {
-	return HitPayload();
+	Renderer::HitPayload payload;
+	payload.HitDistance = -1.0f;//-1.0f;
+
+	return payload;
 }
 
 Renderer::HitPayload Renderer::TraceRay(const Ray& ray)
@@ -138,7 +159,7 @@ Renderer::HitPayload Renderer::TraceRay(const Ray& ray)
 
 		//float t0 = (-b + glm::sqrt(discriminant)) / (2.0f * a);
 		float closestT = (-b - glm::sqrt(discriminant)) / (2.0f * a);//t1
-		if (closestT < hitDist)
+		if (closestT > 0.0f && closestT < hitDist)
 		{
 			hitDist = closestT;
 			closestSphere = (int)i;

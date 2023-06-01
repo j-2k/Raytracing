@@ -32,6 +32,8 @@ public:
 			m_Scene.Spheres.push_back(a);
 		}
 
+
+		/*
 		{
 			Sphere c;
 			c.Position = { 0, 0.5f, 0.5f };
@@ -39,6 +41,7 @@ public:
 			c.Albedo = { 0.2f, 1.f, 0.2f };
 			m_Scene.Spheres.push_back(c);
 		}
+		*/
 	}
 	
 
