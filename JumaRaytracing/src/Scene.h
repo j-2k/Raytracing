@@ -13,11 +13,11 @@ struct Material {
 struct Sphere {
 	glm::vec3 Position{ .0f,.0f,.0f };
 	float Radius = .5f;
-	Material mat;
-	//int materialIndex = 0;
+
+	int materialIndex = 0;
 };
 
 struct Scene {
 	std::vector<Sphere> Spheres;
-	//std::vector<Material> Materials;
+	std::vector<Material> Materials;
 };
