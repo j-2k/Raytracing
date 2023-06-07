@@ -82,7 +82,7 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 
 		const Sphere& sphere = m_ActiveScene->Spheres[payload.ObjectIndex];
 
-		glm::vec3 sphereColor = sphere.Albedo;
+		glm::vec3 sphereColor = sphere.mat.Albedo;
 		sphereColor *= dotNL;//normals;
 		color += sphereColor * multiplier;
 
