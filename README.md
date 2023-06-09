@@ -34,18 +34,22 @@ Click [here](https://j-2k.github.io/raytracingproject) to go to my website where
 Camera interactivity was also added.
 ![Screenshot_2](https://user-images.githubusercontent.com/52252068/234472619-360c6518-8d1f-481a-8153-7521b2461c02.png)
 
-#### PLACE BELOW IMGS CORRECTLY. TESTING...
-1 
+#### Multiple Spheres & Reflective rays added
 ![reflective](https://github.com/j-2k/Raytracing/assets/52252068/dfb3f6b4-0bd4-43a7-a8db-033821ef65ce)
-2
+
+#### Roughness "Material" (only applied on bottom sphere)
 ![roughness](https://github.com/j-2k/Raytracing/assets/52252068/927f2439-335d-4b56-8358-a69ccbca2f49)
-3
+
+#### Skybox color added
 ![roughsky](https://github.com/j-2k/Raytracing/assets/52252068/42e3bc86-94ae-42e5-897b-eb563b38a3f3)
-4
+
+#### Visualizing Ambient Occlusion with different roughness
 ![ao no rough](https://github.com/j-2k/Raytracing/assets/52252068/19bd31cf-0ff1-4f23-a3cc-dbf9d6629dd6)
 ![AOro](https://github.com/j-2k/Raytracing/assets/52252068/37ef9ab5-c7e3-499c-9877-542ef7fc772d)
 ![ao rough](https://github.com/j-2k/Raytracing/assets/52252068/27b0c780-33b6-4fc2-8f42-eed5c70de533)
-5
+
+#### Roughness + Skybox + AO 
 ![nice](https://github.com/j-2k/Raytracing/assets/52252068/2107a1ba-c9f1-4c71-8024-5fb134e5d5d0)
 
+#### Starting Pathtracing
 
