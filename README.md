@@ -1,10 +1,11 @@
 # First Raytracing Project
 
-[Visualizing this raytracer in unity (Repository)](https://github.com/j-2k/VisualizeRaytracingInUnity)<br />
-[Visualizing this raytracer in unity (Blog)](https://j-2k.github.io/raytracingproject)<br />
 This is my first time trying to tackle raytracing from scratch, I will be documenting my learning journey on everything I do & learn on my website. I try to make it in a way that is simple to understand as much as possible, if you would like to check it out click the blog link above or click [here](https://j-2k.github.io/raytracingproject).
 
 Its important to know before hand this project is not fully written from "scratch" but it kind of is atleast the raytracing part. we are mostly using a vulkan image & assigning its pixels to "emulate" a raytracer, but anyway this project is a [Walnut](https://github.com/TheCherno/Walnut) template originally & we just built a raytracer ontop of it. Its mostly just ImGUI for UI, GLM for math, & GLFW for window stuff.
+
+I also show how this raytracer works in unity & show the individual rays of how they create a sphere, this is essentially the same algorithim used in my raytracer. To see visualization & images of how my raytracer works you can check either the [Repository](https://github.com/j-2k/VisualizeRaytracingInUnity) or [Blog](https://j-2k.github.io/raytracingproject).<br />
+
 
 # Building this project
 
