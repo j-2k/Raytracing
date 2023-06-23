@@ -35,6 +35,9 @@ void Renderer::OnResize(uint32_t width, uint32_t height)
 
 	delete[] m_ImageData;
 	m_ImageData = new uint32_t[width * height];
+
+	delete[] m_AccumulationData;
+	m_AccumulationData = new glm::vec4[width * height];
 }
 
 void Renderer::Render(const Scene& scene, const Camera& camera)
@@ -42,6 +45,11 @@ void Renderer::Render(const Scene& scene, const Camera& camera)
 	m_ActiveScene = &scene;
 	m_ActiveCamera = &camera;
 
+	if (m_FrameIndex == 1)//start with setting all memory @ accumulation data to 0 since its our first frame
+	{
+		memset(m_AccumulationData, 0, 
+			m_FinalImage->GetHeight() * m_FinalImage->GetWidth() * sizeof(glm::vec4));
+	}
 
 	//Main Renderer / Rendering Function
 	for (uint32_t y = 0; y < m_FinalImage->GetHeight(); y++)
@@ -49,12 +57,22 @@ void Renderer::Render(const Scene& scene, const Camera& camera)
 		for (uint32_t x = 0; x < m_FinalImage->GetWidth(); x++)
 		{
 			glm::vec4 color = PerPixel(x,y);
-			color = glm::clamp(color, glm::vec4(0.0f), glm::vec4(1.0f));
-			m_ImageData[x + y * m_FinalImage->GetWidth()] = Utils::ConvertVec4ToRGBA32Bit(color);
+			m_AccumulationData[x + y * m_FinalImage->GetWidth()] += color;//add color to accumulated data (without averaging the color would be really bright)
+
+			glm::vec4 accumulatedCol = m_AccumulationData[x + y * m_FinalImage->GetWidth()];	
+			accumulatedCol /= (float)m_FrameIndex;//Averaging the accumulated color data
+
+			accumulatedCol = glm::clamp(accumulatedCol, glm::vec4(0.0f), glm::vec4(1.0f));//clamp range to 0 1
+			m_ImageData[x + y * m_FinalImage->GetWidth()] = Utils::ConvertVec4ToRGBA32Bit(accumulatedCol); //1byte/8bit per color channel
 		}
 	}
 
 	m_FinalImage->SetData(m_ImageData);
+
+	if (m_Settings.Accumulate)
+	{m_FrameIndex++;}
+	else 
+	{m_FrameIndex = 1;}
 }
 
 glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)

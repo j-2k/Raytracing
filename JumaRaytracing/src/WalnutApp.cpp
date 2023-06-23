@@ -67,6 +67,14 @@ public:
 		{
 			Render();
 		}
+
+		ImGui::Checkbox("Accumulate", &renderer.GetSettings().Accumulate);
+
+		if (ImGui::Button("Reset"))
+		{
+			renderer.ResetFrameIndex();
+		}
+
 		ImGui::End();
 
 		ImGui::Begin("Scene");
