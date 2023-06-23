@@ -55,7 +55,10 @@ public:
 
 	virtual void OnUpdate(float ts) override
 	{
-		m_Camera.OnUpdate(ts);
+		if (m_Camera.OnUpdate(ts))
+		{
+			renderer.ResetFrameIndex();//auto resetting frame index when moved
+		}
 	}
 
 	virtual void OnUIRender() override
