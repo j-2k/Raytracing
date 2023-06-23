@@ -52,5 +52,6 @@ Camera interactivity was also added.
 #### Roughness + Skybox + AO 
 ![nice](https://github.com/j-2k/Raytracing/assets/52252068/2107a1ba-c9f1-4c71-8024-5fb134e5d5d0)
 
-#### Starting Pathtracing
+#### Pathtracing (Accumulation of frames)
+![ptrt](https://github.com/j-2k/Raytracing/assets/52252068/f2a9fd6b-e92f-4c3f-a738-40b89fa3953f)
 
