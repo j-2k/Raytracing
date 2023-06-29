@@ -66,6 +66,8 @@ void Renderer::Render(const Scene& scene, const Camera& camera)
 	}
 
 #define MultiThreaded 1
+	//from 50ms~ > 20~ms > 12ms~ | Shown below the status of MS
+	//NO MT >	(USING FOREACH)	>	THREAD LOCAL EACH RANDOM ENGINE TO A CORE
 
 #if MultiThreaded 1
 	std::for_each(std::execution::par,m_ImageVerticalIter.begin(), m_ImageVerticalIter.end(),
