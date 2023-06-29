@@ -148,8 +148,10 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 		multiplier *= 0.6f;
 
 		ray.origin = payload.WorldPosition + payload.WorldNormal * 0.0001f;
+
+		//ROUGHNESS
 		ray.direction = glm::reflect(ray.direction, payload.WorldNormal
-			+ material.Roughness * Walnut::Random::Vec3(-0.5f,0.5f));
+			+ material.Roughness * Walnut::Random::Vec3(-0.5f,0.5f));//RANDOM FUNCTION NEEDS TO BE MULTITHREADED
 	}
 	return glm::vec4(color, 1);
 }

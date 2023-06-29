@@ -66,6 +66,10 @@ public:
 		ImGui::Begin("Settings");
 		ImGui::Text("Last render: %.3fms", m_LastRenderTime);
 		ImGui::Text("FPS: %.1f", m_FPS);
+		ImGui::Text("Multithreading Randomness: MAKE SURE THE RANDOM FUNCTION IN THE PERPIXEL FUNCTION IS MULTITHREADED,");
+		ImGui::Text("src > Renderer.cpp > Renderer::PerPixel() > Walnut::Random / CTRL + LCLICK Random & enter the random files (CPP & H)");
+		ImGui::Text("prefix 'thread_local' to RandomEngine in both the random cpp & h files/ MOCK RANDOM CPP & H FILES ARE IN THE SRC FILES COPY THEM");
+
 		if (ImGui::Button("Render"))
 		{
 			Render();
