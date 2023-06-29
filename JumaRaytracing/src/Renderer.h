@@ -49,4 +49,7 @@ private:
 
 	const Scene* m_ActiveScene = nullptr;
 	const Camera* m_ActiveCamera = nullptr;
+
+	//MultiThreading
+	std::vector<uint32_t> m_ImageHorizontalIter, m_ImageVerticalIter;
 };
