@@ -55,3 +55,8 @@ Camera interactivity was also added.
 #### Pathtracing (Accumulation of frames)
 ![ptrt](https://github.com/j-2k/Raytracing/assets/52252068/f2a9fd6b-e92f-4c3f-a738-40b89fa3953f)
 
+#### CPU Multithreading 
+##### Performance Increase: 76% Faster Overall (50ms > 20ms > 12 ms)
+*60% Faster 50ms to 20ms* - Utilizing all cores using for each function with a parallel execution parameter.  
+*40% Faster 20ms to 12ms*- All cores were using 1 Random Engine, Changed to use thread_local, so each thread has its own random engine.  
+![CPU Multithreading](https://github.com/j-2k/Raytracing/assets/52252068/582ab8ac-2fe1-4b43-b2ce-64a613695599)
