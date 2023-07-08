@@ -121,8 +121,8 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 	ray.origin = m_ActiveCamera->GetPosition();
 	ray.direction = m_ActiveCamera->GetRayDirections()[x + y * m_FinalImage->GetWidth()];
 
-	glm::vec3 color(0);
-	float multiplier = 1.0f;
+	glm::vec3 light(0);
+	glm::vec3 contributionCol(1.0f);//oldmultiplier
 
 	int rayBounces = 6;
 	for (int i = 0; i < rayBounces; i++)
@@ -131,29 +131,32 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 		if (payload.HitDistance < 0.0f)
 		{
 			glm::vec3 skyColor = glm::vec3(0.1f, 0.5f, 0.9f);
-			color += skyColor * multiplier;
+			//light += skyColor * contributionCol;
 			break;
 		}
 
-		glm::vec3 lightDir = glm::normalize(glm::vec3(-1, -1, -1));
-		float dotNL = glm::max(glm::dot(payload.WorldNormal, -lightDir), 0.0f);//dot normal & light
+		//turningofflight for emissions
+		//glm::vec3 lightDir = glm::normalize(glm::vec3(-1, -1, -1));
+		//float dotNL = glm::max(glm::dot(payload.WorldNormal, -lightDir), 0.0f);//dot normal & light
 
 		const Sphere& sphere = m_ActiveScene->Spheres[payload.ObjectIndex];
 		const Material& material = m_ActiveScene->Materials[sphere.materialIndex];
 
 		glm::vec3 sphereColor = material.Albedo;
-		sphereColor *= dotNL;//normals;
-		color += sphereColor * multiplier;
+		//sphereColor *= dotNL;//normals;
 
-		multiplier *= 0.6f;
+		contributionCol *= material.Albedo; // 0.9,0,0 * 1 //contributionCol *= 0.6f;
+		light += material.GetEmission();
 
 		ray.origin = payload.WorldPosition + payload.WorldNormal * 0.0001f;
 
 		//ROUGHNESS
-		ray.direction = glm::reflect(ray.direction, payload.WorldNormal
-			+ material.Roughness * Walnut::Random::Vec3(-0.5f,0.5f));//RANDOM FUNCTION NEEDS TO BE MULTITHREADED
+		//ray.direction = glm::reflect(ray.direction, payload.WorldNormal
+		//	+ material.Roughness * Walnut::Random::Vec3(-0.5f,0.5f));//RANDOM FUNCTION NEEDS TO BE MULTITHREADED
+
+		ray.direction = glm::normalize(payload.WorldNormal + Walnut::Random::InUnitSphere());
 	}
-	return glm::vec4(color, 1);
+	return glm::vec4(light, 1);
 }
 
 Renderer::HitPayload Renderer::ClosestHit(const Ray& ray, float hitDistance, int objectIndex)

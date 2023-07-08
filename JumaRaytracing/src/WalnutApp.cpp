@@ -23,6 +23,21 @@ public:
 		Material& greenSphere = m_Scene.Materials.emplace_back();
 		greenSphere.Albedo = { 0.1f,0.9f,0.1f };
 		greenSphere.Roughness = 0.1f;
+
+		Material& yellowSphere = m_Scene.Materials.emplace_back();
+		yellowSphere.Albedo = { 1.0f,1.0f,0.0f };
+		yellowSphere.Roughness = 0.2f;
+		yellowSphere.EmissionColor = yellowSphere.Albedo;
+		yellowSphere.EmissionPower = 2.0f;
+
+		{
+			Sphere c;
+			c.Position = { 2, 0, 0 };
+			c.Radius = 1;
+			c.materialIndex = 2;
+			m_Scene.Spheres.push_back(c);
+		}
+
 		{
 			Sphere b;
 			b.Position = { 0, 0, 0 };
@@ -114,6 +129,10 @@ public:
 				&material.Roughness, 0.05f,0.0f,1.0f);
 			ImGui::DragFloat("Metallic",
 				&material.Metallic, 0.05f, 0.0f, 1.0f);
+			ImGui::ColorEdit3("EmissionColor",
+				glm::value_ptr(material.EmissionColor));
+			ImGui::DragFloat("EmissionPower",
+				&material.EmissionPower, 0.05f, 0.0f, FLT_MAX);
 
 			ImGui::Separator();
 
