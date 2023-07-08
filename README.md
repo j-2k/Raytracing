@@ -62,12 +62,18 @@ Camera interactivity was also added.
 ![CPU Multithreading](https://github.com/j-2k/Raytracing/assets/52252068/582ab8ac-2fe1-4b43-b2ce-64a613695599)
 
 #### Emissions
-![Screenshot_4](https://github.com/j-2k/Raytracing/assets/52252068/7addef7e-4cd9-4829-9e21-4e3a8706ca0e)
-![Screenshot_5](https://github.com/j-2k/Raytracing/assets/52252068/c3397570-7858-42cb-ba0b-3278be5a0320)
-![Screenshot_6](https://github.com/j-2k/Raytracing/assets/52252068/47aad42d-355f-420e-b99f-1696cdd9e376)
-![Screenshot_7](https://github.com/j-2k/Raytracing/assets/52252068/d958fff5-9c8f-44bf-b79b-debae131c059)
-![Screenshot_8](https://github.com/j-2k/Raytracing/assets/52252068/a339c4bb-0a3e-406c-a74f-9b2cbcc993b6)
+Process of working towards Emissions  |  Final Emissions
+:-------------------------:|:-------------------------:
+![Screenshot_3](https://github.com/j-2k/Raytracing/assets/52252068/0b049eac-4a88-4914-85e4-2b0b099dd37a) Weird Diffuse & Specular mix looked cool | ![Screenshot_6](https://github.com/j-2k/Raytracing/assets/52252068/47aad42d-355f-420e-b99f-1696cdd9e376) Disabling sky color & only showing emission
+![Screenshot_4](https://github.com/j-2k/Raytracing/assets/52252068/7addef7e-4cd9-4829-9e21-4e3a8706ca0e) Diffuse Only | ![Screenshot_7](https://github.com/j-2k/Raytracing/assets/52252068/d958fff5-9c8f-44bf-b79b-debae131c059) Yellowish Sun
+![Screenshot_5](https://github.com/j-2k/Raytracing/assets/52252068/c3397570-7858-42cb-ba0b-3278be5a0320) The First Emission | ![Screenshot_8](https://github.com/j-2k/Raytracing/assets/52252068/a339c4bb-0a3e-406c-a74f-9b2cbcc993b6) Blue Sun
+
+##### Accumulation of ~3 minutes with a yellow emission
 ![Screenshot_9](https://github.com/j-2k/Raytracing/assets/52252068/5ab842b2-0a53-4d53-9903-897131818681)
+
+
+
+
 
 
 
