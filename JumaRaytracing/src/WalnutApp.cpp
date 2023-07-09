@@ -91,6 +91,7 @@ public:
 		}
 
 		ImGui::Checkbox("Accumulate", &renderer.GetSettings().Accumulate);
+		ImGui::Checkbox("use PCGHASH", &renderer.GetSettings().isPCGHASH);
 
 		if (ImGui::Button("Reset"))
 		{

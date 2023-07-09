@@ -11,6 +11,7 @@ class Renderer
 public:
 	struct Settings {
 		bool Accumulate = true;
+		bool isPCGHASH = true;
 	};
 
 public:

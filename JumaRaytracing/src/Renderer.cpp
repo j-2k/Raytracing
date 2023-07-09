@@ -14,6 +14,27 @@ namespace Utils
 		uint32_t finalCol = (a << 24) | (b << 16) | (g << 8) | r;
 		return finalCol;
 	}
+
+	static uint32_t PCG_Hash(uint32_t input)
+	{
+		uint32_t state = input * 747796405u + 2891336453u;
+		uint32_t word = ((state >> ((state >> 28u) + 4u)) ^ state) * 277803737u;
+		return (word >> 22u) ^ word;//returns random uint care***
+	}
+
+	static float getRandomFloatPCG(uint32_t& seed)
+	{
+		seed = PCG_Hash(seed);
+		return (float)seed / (float)std::numeric_limits<uint32_t>::max();
+		//return (float)seed / (float)UINT32_MAX;
+	}
+
+	static glm::vec3 InUnitSphere(uint32_t& seed)
+	{
+		return glm::normalize(
+			glm::vec3(getRandomFloatPCG(seed), getRandomFloatPCG(seed),getRandomFloatPCG(seed))
+			* 2.0f - 1.0f);
+	}
 }
 
 void Renderer::OnResize(uint32_t width, uint32_t height)
@@ -124,9 +145,14 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 	glm::vec3 light(0);
 	glm::vec3 contributionCol(1.0f);//oldmultiplier
 
+	uint32_t seed = x + y * m_FinalImage->GetWidth();
+	seed *= m_FrameIndex;//seed starts at 1 not 0
+
 	int rayBounces = 6;
 	for (int i = 0; i < rayBounces; i++)
 	{
+		seed += i; //i=bounceindex for seed
+
 		Renderer::HitPayload payload = TraceRay(ray);
 		if (payload.HitDistance < 0.0f)
 		{
@@ -154,7 +180,14 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 		//ray.direction = glm::reflect(ray.direction, payload.WorldNormal
 		//	+ material.Roughness * Walnut::Random::Vec3(-0.5f,0.5f));//RANDOM FUNCTION NEEDS TO BE MULTITHREADED
 
-		ray.direction = glm::normalize(payload.WorldNormal + Walnut::Random::InUnitSphere());
+		if (GetSettings().isPCGHASH)
+		{
+			ray.direction = glm::normalize(payload.WorldNormal + Utils::InUnitSphere(seed));
+		}
+		else
+		{
+			ray.direction = glm::normalize(payload.WorldNormal + Walnut::Random::InUnitSphere());
+		}
 	}
 	return glm::vec4(light, 1);
 }
