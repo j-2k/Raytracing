@@ -71,6 +71,14 @@ Process of working towards Emissions  |  Final Emissions
 ##### Accumulation of ~3 minutes with a yellow emission
 ![Screenshot_9](https://github.com/j-2k/Raytracing/assets/52252068/5ab842b2-0a53-4d53-9903-897131818681)
 
+#### Faster Randomness using PCGHash (3~ ms improvement, 20~ ms to 17~ ms)
+These improvements might be small but improvements on already low ms are really good in my eyes, kinda think of them as exponential improvements the lower in ms we go.
+<p align="middle" float="left">
+  <img src="https://github.com/j-2k/Raytracing/assets/52252068/40617cef-67c1-4d4b-a13e-4837fc8a1bfc" width="48%" />
+  <img src="https://github.com/j-2k/Raytracing/assets/52252068/f402f7f6-ccd9-4b84-98e1-9c94e41ca483" width="48%" /> 
+</p>
+
+
 
 
 
