@@ -1,14 +1,11 @@
 # First Raytracing Project
-
 This is my first time trying to tackle raytracing from scratch, I will be documenting my learning journey on everything I do & learn on my website. I try to make it in a way that is simple to understand as much as possible, if you would like to check it out click the blog link above or click [here](https://j-2k.github.io/raytracingproject).
 
 Its important to know before hand this project is not fully written from "scratch" but it kind of is atleast the raytracing part. we are mostly using a vulkan image & assigning its pixels to "emulate" a raytracer, but anyway this project is a [Walnut](https://github.com/TheCherno/Walnut) template originally & we just built a raytracer ontop of it. Its mostly just ImGUI for UI, GLM for math, & GLFW for window stuff.
 
 I also show how this raytracer works in unity & show the individual rays of how they create a sphere, this is essentially the same algorithim used in my raytracer. To see visualization & images of how my raytracer works you can check either the [Repository](https://github.com/j-2k/VisualizeRaytracingInUnity) or [Blog](https://j-2k.github.io/raytracingproject/#Visualize_Raytracing).<br />
 
-
 # Building this project
-
 I used Visual Studio 2022 so I suggest that IDE, but you also need latest version of the Vulkan SDK.
 
 ## Learning Resources & Useful Links
@@ -21,6 +18,9 @@ I used Visual Studio 2022 so I suggest that IDE, but you also need latest versio
 
 ## My journey through raytracing with pictures!
 Click [here](https://j-2k.github.io/raytracingproject) to go to my website where I show much more in a better fashion.
+
+The big stages of my raytracer through stages in 1 image, below has all the steps shown in order.
+![RaytracerShow](https://github.com/j-2k/Raytracing/assets/52252068/d46e49a0-98a7-482b-bd44-4a9fdee4122c)
 
 #### The Hello World Stage
 ![first uv](https://user-images.githubusercontent.com/52252068/234472575-81e72086-39fe-4f46-8550-3d80f62e45a1.png)
@@ -77,6 +77,7 @@ These improvements might be small but improvements on already low ms are really 
   <img src="https://github.com/j-2k/Raytracing/assets/52252068/40617cef-67c1-4d4b-a13e-4837fc8a1bfc" width="48%" />
   <img src="https://github.com/j-2k/Raytracing/assets/52252068/f402f7f6-ccd9-4b84-98e1-9c94e41ca483" width="48%" /> 
 </p>
+
 
 
 
